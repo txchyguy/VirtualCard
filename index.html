@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Abutalha Shaibaz Sayyed – Profile</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+
+  /* ── CSS VARIABLES ── */
+  :root {
+    --bg-outer:             #0d0b1a;
+    --star-color:           rgba(255,255,255,0.55);
+    --card-header-bg:       #7c5cbf;
+    --card-body-bg:         #100e1e;
+    --card-border:          rgba(124,92,191,0.35);
+    --name-color:           #e8d5ff;
+    --about-title:          #ffffff;
+    --about-text:           #c8bde8;
+    --icon-color:           #ffffff;
+    --btn-primary-bg:       #7c5cbf;
+    --btn-primary-txt:      #ffffff;
+    --btn-secondary-bg:     transparent;
+    --btn-secondary-txt:    #7c5cbf;
+    --btn-secondary-border: #7c5cbf;
+    --toggle-track:         #3a2f6e;
+    --toggle-thumb:         #f5f5f5;
+    --toggle-on:            #7c5cbf;
+    --tagline-color:        #b39ddb;
+    --title-color:          #d1b3ff;
+    --underline:            #7c5cbf;
+    --card-glow:            rgba(124,92,191,0.18);
+    --menu-color:           #e8d5ff;
+    --mail-color:           #e8d5ff;
+  }
+
+  [data-theme="light"] {
+    --bg-outer:             #e8e0f5;
+    --star-color:           rgba(80,50,140,0.45);
+    --card-header-bg:       #9370db;
+    --card-body-bg:         #f8f5ff;
+    --card-border:          rgba(124,92,191,0.25);
+    --name-color:           #2a1860;
+    --about-title:          #1a0d3e;
+    --about-text:           #3d2a6e;
+    --icon-color:           #2a1860;
+    --btn-primary-bg:       #7c5cbf;
+    --btn-primary-txt:      #ffffff;
+    --btn-secondary-bg:     transparent;
+    --btn-secondary-txt:    #5a3fa0;
+    --btn-secondary-border: #5a3fa0;
+    --toggle-track:         #c8aff0;
+    --toggle-thumb:         #ffffff;
+    --toggle-on:            #7c5cbf;
+    --tagline-color:        #5a3fa0;
+    --title-color:          #6a4ab8;
+    --underline:            #7c5cbf;
+    --card-glow:            rgba(124,92,191,0.14);
+    --menu-color:           #2a1860;
+    --mail-color:           #2a1860;
+  }
+
+  /* ── RESET ── */
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* ── BODY ── */
+  body {
+    min-height: 100vh;
+    background: var(--bg-outer);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Rajdhani', sans-serif;
+    overflow: hidden;
+    transition: background 0.4s ease;
+    position: relative;
+  }
+
+  /* ── PARTICLE CANVAS ── */
+  #particles {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── THEME TOGGLE (top-right) ── */
+  .theme-toggle {
+    position: fixed;
+    top: 18px;
+    right: 22px;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .toggle-label {
+    font-size: 11px;
+    color: var(--about-text);
+    font-family: 'Share Tech Mono', monospace;
+    letter-spacing: 0.04em;
+    transition: color 0.3s;
+  }
+
+  .toggle-switch {
+    position: relative;
+    width: 46px;
+    height: 26px;
+    cursor: pointer;
+  }
+
+  .toggle-switch input {
+    display: none;
+  }
+
+  .toggle-track {
+    position: absolute;
+    inset: 0;
+    background: var(--toggle-track);
+    border-radius: 999px;
+    transition: background 0.35s;
+  }
+
+  .toggle-switch input:checked + .toggle-track {
+    background: var(--toggle-on);
+  }
+
+  .toggle-thumb {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--toggle-thumb);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .toggle-switch input:checked ~ .toggle-thumb {
+    transform: translateX(20px);
+  }
+
+  .sun-moon { font-size: 15px; }
+
+  /* ── ZOOM OUTER WRAPPER ── */
+  #zoom-wrap {
+    touch-action: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    z-index: 10;
+  }
+
+  /* ── CARD WRAPPER (float + tilt target) ── */
+  .card-wrap {
+    position: relative;
+    width: min(420px, 94vw);
+    will-change: transform;
+    transform-style: preserve-3d;
+    animation: floatCard 4s ease-in-out infinite;
+  }
+
+  @keyframes floatCard {
+    0%, 100% { transform: translateY(0px);  }
+    50%       { transform: translateY(-10px); }
+  }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--card-body-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow:
+      0 8px 48px var(--card-glow),
+      0 2px 12px rgba(0,0,0,0.35);
+    transition:
+      background 0.4s ease,
+      border-color 0.4s ease,
+      box-shadow 0.4s ease;
+  }
+
+  /* ── CARD HEADER ── */
+  .card-header {
+    background: var(--card-header-bg);
+    padding: 22px 22px 0 22px;
+    position: relative;
+    text-align: center;
+    transition: background 0.4s ease;
+  }
+
+  .card-header::after {
+    content: '';
+    display: block;
+    height: 38px;
+    background: var(--card-body-bg);
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+    margin: 18px -22px 0;
+    transition: background 0.4s ease;
+  }
+
+  /* Header icon row */
+  .header-icons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+
+  .header-icons svg {
+    width: 22px;
+    height: 22px;
+    stroke: var(--menu-color);
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: stroke 0.3s;
+  }
+
+  .header-icons a { line-height: 0; }
+  .header-icons a svg { stroke: var(--mail-color); }
+
+  /* ── AVATAR ── */
+  .avatar-ring {
+    width: 98px;
+    height: 98px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #9b59b6, #3b1f6e, #c0392b);
+    padding: 3px;
+    margin: 0 auto 12px;
+    box-shadow:
+      0 0 0 3px rgba(255,255,255,0.08),
+      0 4px 20px rgba(0,0,0,0.45);
+  }
+
+  .avatar-inner {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #4a1942 0%, #1a0d3e 50%, #2d1030 100%);
+  }
+
+  .avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    border-radius: 50%;
+    display: block;
+  }
+
+  /* Shown when avatar-img fails to load */
+  .avatar-fallback {
+    font-family: 'Orbitron', monospace;
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 0 12px rgba(180,100,255,0.7), 2px 2px 4px rgba(0,0,0,0.6);
+    letter-spacing: -1px;
+    display: none;
+  }
+
+  /* ── PROFILE NAME ── */
+  .profile-name {
+    font-family: 'Orbitron', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--name-color);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 6px;
+    transition: color 0.3s;
+  }
+
+  .name-dot {
+    color: #c8a0ff;
+    font-size: 11px;
+  }
+
+  /* ── CARD BODY ── */
+  .card-body {
+    padding: 0 26px 26px;
+  }
+
+  .profile-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--title-color);
+    text-align: center;
+    letter-spacing: 0.04em;
+    margin-bottom: 2px;
+    transition: color 0.3s;
+  }
+
+  .profile-tagline {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--tagline-color);
+    text-align: center;
+    margin-bottom: 14px;
+    letter-spacing: 0.03em;
+    transition: color 0.3s;
+  }
+
+  /* ── ABOUT SECTION ── */
+  .about-section { margin-bottom: 16px; }
+
+  .about-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--about-title);
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+    display: inline-block;
+    padding-bottom: 4px;
+    border-bottom: 2px solid var(--underline);
+    transition: color 0.3s, border-color 0.3s;
+  }
+
+  .about-line {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 14.5px;
+    font-weight: 500;
+    color: var(--about-text);
+    line-height: 1.7;
+    transition: color 0.3s;
+  }
+
+  .about-line.sm  { font-size: 13px;   margin-top: 6px; }
+  .about-line.xs  { font-size: 12.5px; margin-top: 4px; }
+
+  .about-line .star  { color: #c8a0ff; }
+  .about-line .tilde { color: #b39ddb; }
+  .about-line .dot   { color: #c8a0ff; }
+
+  /* ── SOCIAL ICONS ── */
+  .socials {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+    align-items: center;
+  }
+
+  .social-link {
+    color: var(--icon-color);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    transition: color 0.25s, transform 0.22s;
+  }
+
+  .social-link:hover,
+  .social-link:focus {
+    color: #c8a0ff;
+    transform: translateY(-2px) scale(1.13);
+    outline: none;
+  }
+
+  .social-link svg { width: 22px; height: 22px; }
+
+  /* ── BUTTONS ── */
+  .btn-row {
+    display: flex;
+    gap: 12px;
+  }
+
+  .btn {
+    flex: 1;
+    padding: 10px 0;
+    border-radius: 999px;
+    font-family: 'Orbitron', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid transparent;
+  }
+
+  .btn-primary {
+    background: var(--btn-primary-bg);
+    color: var(--btn-primary-txt);
+    border-color: var(--btn-primary-bg);
+  }
+
+  .btn-primary:hover {
+    filter: brightness(1.15);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(124,92,191,0.45);
+  }
+
+  .btn-secondary {
+    background: var(--btn-secondary-bg);
+    color: var(--btn-secondary-txt);
+    border-color: var(--btn-secondary-border);
+  }
+
+  .btn-secondary:hover {
+    background: rgba(124,92,191,0.12);
+    transform: translateY(-1px);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 480px) {
+  .card-wrap {
+    transform: scale(0.85);
+    transform-origin: center;
+  }
+}
+overflow-x: hidden;
+
+
+</style>
+</head>
+<body>
+
+<!-- Particle canvas -->
+<canvas id="particles"></canvas>
+
+<!-- Theme Toggle (top-right) -->
+<div class="theme-toggle">
+  <span class="toggle-label sun-moon" id="themeIcon">🌙</span>
+  <label class="toggle-switch" aria-label="Toggle light/dark mode">
+    <input type="checkbox" id="themeToggle" />
+    <div class="toggle-track"></div>
+    <div class="toggle-thumb"></div>
+  </label>
+</div>
+
+<!-- Pinch-zoom outer container -->
+<div id="zoom-wrap">
+
+  <!-- Profile Card -->
+  <div class="card-wrap" id="cardWrap">
+    <div class="card">
+
+      <!-- Header -->
+      <div class="card-header">
+        <div class="header-icons">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <line x1="3" y1="6"  x2="21" y2="6"/>
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+          <a href="mailto:abutalhasayyed82@gmail.com" aria-label="Send email">
+            <svg viewBox="0 0 24 24">
+              <rect x="2" y="4" width="20" height="16" rx="2"/>
+              <polyline points="2,4 12,13 22,4"/>
+            </svg>
+          </a>
+        </div>
+
+        <!-- Avatar: image with graceful fallback to initials -->
+        <div class="avatar-ring">
+          <div class="avatar-inner">
+            <img
+              src="images/wallah.jpeg"
+              alt="Abutalha Sayyed"
+              class="avatar-img"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='block';"
+            />
+            <span class="avatar-fallback" aria-hidden="true">ATS</span>
+          </div>
+        </div>
+
+        <div class="profile-name">
+          <span class="name-dot">■</span>
+          Abutalha Sayyed
+          <span class="name-dot">■</span>
+        </div>
+      </div>
+      <!-- /card-header -->
+
+      <!-- Body -->
+      <div class="card-body">
+        <div class="profile-title">Aspiring Software Engineer &amp; Backend Developer</div>
+        <div class="profile-tagline">Backend Developer | Building Scalable Systems | Problem Solver</div>
+
+        <div class="about-section">
+          <div class="about-title">About</div>
+          <div class="about-line"><span class="star">✦</span> Profession: Programmer <span class="star">✦</span></div>
+          <div class="about-line"><span class="tilde">~</span> Dev <span class="tilde">~</span></div>
+          <div class="about-line"><span class="dot">•</span> Python | Java | JavaScript | HTML | CSS | SQL <span class="dot">•</span></div>
+          <div class="about-line sm">Backend-focused CS student building APIs, database-driven apps &amp; real-world projects.</div>
+          <div class="about-line xs">📍 Mumbra, Thane</div>
+        </div>
+
+        <!-- Social Icons -->
+        <div class="socials">
+          <a href="https://github.com/talha0135" class="social-link" target="_blank" rel="noopener" aria-label="GitHub">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.167 6.839 9.49.5.092.682-.217.682-.483 0-.237-.009-.868-.013-1.703-2.782.605-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.071 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.087.636-1.337-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+            </svg>
+          </a>
+          <a href="https://instagram.com/iykyk_kontalha" class="social-link" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <circle cx="12" cy="12" r="4"/>
+              <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+            </svg>
+          </a>
+          <a href="https://www.linkedin.com/in/abutalha-sayyed-a2343a3b4" class="social-link" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+          </a>
+          <a href="https://wa.me/917045771126?text=Hi%20Abutalha%2C%20I%20visited%20your%20profile%20and%20would%20like%20to%20connect."
+             class="social-link" target="_blank" rel="noopener" aria-label="WhatsApp">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+              <path d="M12.004 2C6.477 2 2.004 6.473 2.004 12c0 1.99.584 3.84 1.59 5.391L2 22l4.733-1.565A9.96 9.96 0 0012.004 22C17.531 22 22 17.527 22 12S17.531 2 12.004 2zm0 18.182a8.18 8.18 0 01-4.17-1.143l-.3-.178-3.1 1.027.985-3.044-.195-.313A8.18 8.18 0 0112.004 4c4.52 0 8.196 3.676 8.196 8.196 0 4.52-3.676 8.196-8.196 8.196z"/>
+            </svg>
+          </a>
+        </div>
+
+        <!-- Buttons -->
+        <div class="btn-row">
+          <a href="https://txchyguy.github.io/MainPortfolio/" class="btn btn-primary" target="_blank" rel="noopener">View Portfolio</a>
+          <a href="tel:7045771126" class="btn btn-secondary">Contact</a>
+        </div>
+      </div>
+      <!-- /card-body -->
+
+    </div><!-- /card -->
+  </div><!-- /card-wrap -->
+
+</div><!-- /zoom-wrap -->
+
+<script>
+/* ═══════════════════════════════════════════
+   1. PARTICLE / CONSTELLATION
+   – Count boosted to 80, opacity raised so
+     particles are clearly visible on mobile
+═══════════════════════════════════════════ */
+(function () {
+  const canvas = document.getElementById('particles');
+  const ctx    = canvas.getContext('2d');
+  let W, H;
+  const nodes   = [];
+  const COUNT   = 80;
+  const MAX_D   = 150;
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  function Node() {
+    this.x  = Math.random() * W;
+    this.y  = Math.random() * H;
+    this.vx = (Math.random() - 0.5) * 0.7;
+    this.vy = (Math.random() - 0.5) * 0.7;
+    this.r  = 2 + Math.random() * 1.8;
+  }
+  for (let i = 0; i < COUNT; i++) nodes.push(new Node());
+
+  function starColor() {
+    return document.documentElement.getAttribute('data-theme') === 'light'
+      ? 'rgba(90,60,160,0.5)'
+      : 'rgba(215,190,255,0.7)';
+  }
+  function lineBase() {
+    return document.documentElement.getAttribute('data-theme') === 'light'
+      ? 'rgba(90,60,160,'
+      : 'rgba(180,150,255,';
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    const sc = starColor();
+    const lb = lineBase();
+
+    nodes.forEach(n => {
+      n.x += n.vx; n.y += n.vy;
+      if (n.x < 0 || n.x > W) n.vx *= -1;
+      if (n.y < 0 || n.y > H) n.vy *= -1;
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+      ctx.fillStyle = sc;
+      ctx.fill();
+    });
+
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const dx = nodes[i].x - nodes[j].x;
+        const dy = nodes[i].y - nodes[j].y;
+        const d  = Math.hypot(dx, dy);
+        if (d < MAX_D) {
+          ctx.beginPath();
+          ctx.moveTo(nodes[i].x, nodes[i].y);
+          ctx.lineTo(nodes[j].x, nodes[j].y);
+          ctx.strokeStyle = lb + (1 - d / MAX_D) * 0.55 + ')';
+          ctx.lineWidth   = 0.9;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+
+/* ═══════════════════════════════════════════
+   2. THEME TOGGLE
+═══════════════════════════════════════════ */
+(function () {
+  const toggle = document.getElementById('themeToggle');
+  const icon   = document.getElementById('themeIcon');
+  const root   = document.documentElement;
+
+  function applyTheme(light) {
+    root[light ? 'setAttribute' : 'removeAttribute']('data-theme', 'light');
+    toggle.checked   = light;
+    icon.textContent = light ? '☀️' : '🌙';
+  }
+
+  applyTheme(localStorage.getItem('theme') === 'light');
+
+  toggle.addEventListener('change', function () {
+    applyTheme(this.checked);
+    localStorage.setItem('theme', this.checked ? 'light' : 'dark');
+  });
+})();
+
+
+/* ═══════════════════════════════════════════
+   3. FLOATING + 3D TILT
+   – CSS @keyframes handles the idle float.
+   – JS pauses it on hover/touch and applies
+     smooth perspective tilt, then springs
+     back and restores the float animation.
+═══════════════════════════════════════════ */
+(function () {
+  const wrap  = document.getElementById('cardWrap');
+  const TILT  = 12;   // max degrees
+  const PERSP = 800;
+
+  let tilting  = false;
+  let rafId    = null;
+  let curX = 0, curY = 0;
+  let tgtX = 0, tgtY = 0;
+
+  function lerp(a, b, t) { return a + (b - a) * t; }
+
+  function tick() {
+    curX = lerp(curX, tgtX, 0.1);
+    curY = lerp(curY, tgtY, 0.1);
+
+    wrap.style.transform =
+      `perspective(${PERSP}px) rotateX(${curX}deg) rotateY(${curY}deg) translateY(-4px)`;
+
+    const settled = Math.abs(curX - tgtX) < 0.01 && Math.abs(curY - tgtY) < 0.01;
+    if (!settled) {
+      rafId = requestAnimationFrame(tick);
+    } else if (!tilting) {
+      // restore CSS float
+      wrap.style.transform = '';
+      wrap.style.animation = '';
+    }
+  }
+
+  function startTilt() {
+    tilting = true;
+    wrap.style.animation = 'none';
+    cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(tick);
+  }
+
+  function moveTilt(nx, ny) {   // nx, ny ∈ [-1, 1]
+    tgtY =  nx * TILT;
+    tgtX = -ny * TILT;
+  }
+
+  function endTilt() {
+    tilting = false;
+    tgtX = tgtY = 0;
+    cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(tick);
+  }
+
+  /* Mouse */
+  wrap.addEventListener('mouseenter', startTilt);
+  wrap.addEventListener('mousemove', e => {
+    const r  = wrap.getBoundingClientRect();
+    moveTilt(
+      ((e.clientX - r.left)  / r.width  - 0.5) * 2,
+      ((e.clientY - r.top)   / r.height - 0.5) * 2
+    );
+  });
+  wrap.addEventListener('mouseleave', endTilt);
+
+  /* Single-finger touch tilt */
+  wrap.addEventListener('touchstart', e => {
+    if (e.touches.length === 1) startTilt();
+  }, { passive: true });
+
+  wrap.addEventListener('touchmove', e => {
+    if (e.touches.length === 1) {
+      const t = e.touches[0];
+      const r = wrap.getBoundingClientRect();
+      moveTilt(
+        ((t.clientX - r.left)  / r.width  - 0.5) * 2,
+        ((t.clientY - r.top)   / r.height - 0.5) * 2
+      );
+    }
+  }, { passive: true });
+
+  wrap.addEventListener('touchend', e => {
+    if (e.touches.length === 0) endTilt();
+  }, { passive: true });
+})();
+
+
+/* ═══════════════════════════════════════════
+   4. PINCH ZOOM  (two-finger, mobile)
+   – Clamped 0.8 × – 1.5 ×
+   – Uses CSS `scale` logical property on
+     card-wrap so it composes cleanly with
+     the tilt transform written by section 3.
+═══════════════════════════════════════════ */
+(function () {
+  const outer    = document.getElementById('zoom-wrap');
+  const cardWrap = document.getElementById('cardWrap');
+
+  const MIN = 0.8, MAX = 1.5;
+  let scale0 = 1, dist0 = null, curScale = 1;
+
+  function pinchDist(t) {
+    return Math.hypot(
+      t[0].clientX - t[1].clientX,
+      t[0].clientY - t[1].clientY
+    );
+  }
+
+  outer.addEventListener('touchstart', e => {
+    if (e.touches.length === 2) {
+      dist0  = pinchDist(e.touches);
+      scale0 = curScale;
+    }
+  }, { passive: true });
+
+  outer.addEventListener('touchmove', e => {
+    if (e.touches.length !== 2 || dist0 === null) return;
+    e.preventDefault();
+
+    const s = Math.min(MAX, Math.max(MIN, scale0 * pinchDist(e.touches) / dist0));
+    curScale = s;
+    cardWrap.style.scale = s;   // CSS logical property, supported in all modern browsers
+  }, { passive: false });
+
+  outer.addEventListener('touchend', e => {
+    if (e.touches.length < 2) dist0 = null;
+  }, { passive: true });
+})();
+</script>
+</body>
+</html>
